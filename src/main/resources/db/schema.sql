@@ -38,6 +38,7 @@ CREATE TABLE `books` (
                            `rating` int(2) DEFAULT NULL,
                            `date_added` DATE DEFAULT NULL,
                            `date_finished` DATE DEFAULT NULL,
+                           `is_my_book` BOOLEAN DEFAULT FALSE,
                            `shelves_id` int(4)  UNSIGNED NOT NULL,
                            `types_id` int(4)  UNSIGNED NOT NULL,
                            INDEX(title),
