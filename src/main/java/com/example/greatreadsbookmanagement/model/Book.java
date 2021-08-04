@@ -1,11 +1,15 @@
 package com.example.greatreadsbookmanagement.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "books")
 public class Book extends BaseEntity {
@@ -19,16 +23,18 @@ public class Book extends BaseEntity {
     private String author;
 
     @Column(name = "rating")
-    @NotEmpty
-    private int rating;
+    private Integer rating;
 
-    @Column(name = "data_added")
+    @Column(name = "date_added")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateAdded;
 
     @Column(name = "date_finished")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateFinished;
+
+    @Column(name = "is_my_book")
+    private boolean isMyBook;
 
     @ManyToOne
     @JoinColumn(name = "types_id")
