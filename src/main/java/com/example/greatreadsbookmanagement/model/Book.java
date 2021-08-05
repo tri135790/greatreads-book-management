@@ -33,9 +33,6 @@ public class Book extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateFinished;
 
-    @Column(name = "is_my_book")
-    private boolean isMyBook;
-
     @ManyToOne
     @JoinColumn(name = "types_id")
     private BookType bookType;
@@ -43,5 +40,13 @@ public class Book extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "shelves_id")
     private Shelf shelf;
+
+    public boolean isBookAdded() {
+        return "Read".equals(this.shelf.getStatus()) || "Currently Reading".equals(this.shelf.getStatus());
+    }
+
+    public boolean isBookFinished() {
+        return "Read".equals(this.shelf.getStatus());
+    }
 
 }

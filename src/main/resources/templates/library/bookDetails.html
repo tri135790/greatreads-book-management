@@ -22,11 +22,27 @@
     <th>Type</th>
     <td th:text="*{bookType.name}"></td>
   </tr>
+  <tr>
+    <th>Shelf</th>
+    <td th:text="*{shelf.status}"></td>
+  </tr>
+  <tr th:if="${book.isBookAdded()}">
+    <th>Date Added</th>
+    <td th:text="${#temporals.format(book.getDateAdded(), 'yyyy-MM-dd')}"></td>
+  </tr>
+  <tr th:if="${book.isBookFinished()}">
+    <th>Date Finished</th>
+    <td th:text="*{dateFinished}"></td>
+  </tr>
+  <tr th:if="${book.isBookFinished()}">
+    <th>Rating</th>
+    <td th:text="*{rating}">N/A</td>
+  </tr>
 
 </table>
 
-<!--<a th:href="@{{id}/edit(id=${owner.id})}" class="btn btn-default">Edit-->
-<!--  Owner</a>-->
+<a th:href="@{{id}/edit(id=${book.id})}" class="btn btn-default">Edit
+  Book</a>
 <!--<a th:href="@{{id}/pets/new(id=${owner.id})}" class="btn btn-default">Add-->
 <!--  New Pet</a>-->
 

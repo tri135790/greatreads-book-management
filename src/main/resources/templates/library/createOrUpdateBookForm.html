@@ -16,6 +16,13 @@
         th:replace="~{fragments/selectField :: select ('Type', 'bookType', ${types})}" />
       <input
         th:replace="~{fragments/selectField :: select ('Shelf', 'shelf', ${shelves})}" />
+      <input
+        th:replace="~{fragments/inputField :: input ('Date Added', 'dateAdded', 'date')}" />
+      <input
+        th:replace="~{fragments/inputField :: input ('Date Finished', 'dateFinished', 'date')}" />
+      <input
+        th:replace="~{fragments/inputField :: input ('Rating', 'rating', 'number')}" />
+
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">

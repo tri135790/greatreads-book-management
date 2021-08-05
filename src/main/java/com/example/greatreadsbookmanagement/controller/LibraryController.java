@@ -4,6 +4,7 @@ import com.example.greatreadsbookmanagement.model.Book;
 import com.example.greatreadsbookmanagement.model.BookType;
 import com.example.greatreadsbookmanagement.model.Shelf;
 import com.example.greatreadsbookmanagement.repository.LibraryRepository;
+import com.example.greatreadsbookmanagement.validator.LibraryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import java.util.Collection;
 
 @Controller
 public class LibraryController {
+
+    private final static String BOOK_CREATE_OR_UPDATE_FORM = "library/createOrUpdateBookForm";
 
     @Autowired
     private LibraryRepository libraryRepository;
@@ -33,6 +36,11 @@ public class LibraryController {
     @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder) {
         dataBinder.setDisallowedFields("id");
+    }
+
+    @InitBinder
+    public void initLibraryBinder(WebDataBinder webDataBinder) {
+        webDataBinder.setValidator(new LibraryValidator());
     }
 
     @GetMapping("/library/find")
@@ -73,16 +81,34 @@ public class LibraryController {
     public String initCreationForm(Model model) {
         Book book = new Book();
         model.addAttribute("book", book);
-        return "library/createOrUpdateBookForm";
+        return BOOK_CREATE_OR_UPDATE_FORM;
     }
 
     @PostMapping("/library/new")
     public String processCreationForm(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "library/createOrUpdateBookForm";
+            return BOOK_CREATE_OR_UPDATE_FORM;
         } else {
             libraryRepository.save(book);
             return "redirect:/library/" + book.getId();
+        }
+    }
+
+    @GetMapping("/library/{bookId}/edit")
+    public String initUpdateBookForm(@PathVariable("bookId") int bookId, Model model) {
+        Book book = libraryRepository.findById(bookId);
+        model.addAttribute("book", book);
+        return BOOK_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/library/{bookId}/edit")
+    public String processUpdateForm(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult, @PathVariable("bookId") int bookId) {
+        if (bindingResult.hasErrors()) {
+            return BOOK_CREATE_OR_UPDATE_FORM;
+        } else {
+            book.setId(bookId);
+            libraryRepository.save(book);
+            return "redirect:/library/{bookId}";
         }
     }
 
