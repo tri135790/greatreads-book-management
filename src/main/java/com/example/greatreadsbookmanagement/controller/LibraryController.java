@@ -2,6 +2,7 @@ package com.example.greatreadsbookmanagement.controller;
 
 import com.example.greatreadsbookmanagement.model.Book;
 import com.example.greatreadsbookmanagement.model.BookType;
+import com.example.greatreadsbookmanagement.model.Shelf;
 import com.example.greatreadsbookmanagement.repository.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,11 @@ public class LibraryController {
     @ModelAttribute("types")
     public Collection<BookType> populateBookTypes() {
         return libraryRepository.findBookTypes();
+    }
+
+    @ModelAttribute("shelves")
+    public Collection<Shelf> populateBookShelves() {
+        return libraryRepository.findBookShelves();
     }
 
     @InitBinder

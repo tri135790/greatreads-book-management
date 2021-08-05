@@ -3,7 +3,9 @@
 
 <body>
 
-  <h2>Book</h2>
+  <h2>
+    <th:block th:if="${book['new']}">New </th:block>
+    Book</h2>
   <form th:object="${book}" class="form-horizontal" id="add-book-form" method="post">
     <div class="form-group has-feedback">
       <input
@@ -12,6 +14,8 @@
         th:replace="~{fragments/inputField :: input ('Author', 'author', 'text')}" />
       <input
         th:replace="~{fragments/selectField :: select ('Type', 'bookType', ${types})}" />
+      <input
+        th:replace="~{fragments/selectField :: select ('Shelf', 'shelf', ${shelves})}" />
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">

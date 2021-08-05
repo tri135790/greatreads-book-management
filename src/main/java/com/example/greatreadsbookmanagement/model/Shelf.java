@@ -18,4 +18,9 @@ public class Shelf extends BaseEntity {
     @Column(name = "status")
     private String status;
 
+    @Override
+    public String toString() {
+        return this.status;
+    }
+
 }
