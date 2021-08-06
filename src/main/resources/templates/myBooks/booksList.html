@@ -24,7 +24,8 @@
     <th style="width: 50px">Shelves</th>
     <th style="width: 90px">Date Finished</th>
     <th style="width: 90px">Date Added</th>
-    <th style="width: 90px"></th>
+    <th style="width: 60px"></th>
+    <th style="width: 60px"></th>
   </tr>
   </thead>
   <tbody>
@@ -38,8 +39,10 @@
     <td th:text="${book.shelf.status}"/>
     <td th:text="${book.dateFinished}"/>
     <td th:text="${book.dateAdded}"/>
-    <td><a  th:href="@{library/{id}/edit(id=${book.id})}" >Edit
+    <td><a  th:href="@{/library/{id}/edit(id=${book.id})}" >Edit
       Book</a></td>
+    <td><a  th:href="@{/myBooks/remove(bookId=${book.id})}"
+            onclick="if (!(confirm('Are you sure you want to remove this from your books list ?'))) return false" >Remove</a></td>
   </tr>
   </tbody>
 </table>
