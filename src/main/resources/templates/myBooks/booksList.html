@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'myBooks')}">
+
+<body>
+
+<h2>All My Books</h2>
+<div class="form-group">
+    <a class="btn btn-default col-sm-2" th:href="@{/myBooks}">All</a>
+    <a class="btn btn-default col-sm-2" th:href="@{/myBooks/want-to-read}">Want To Read</a>
+    <a class="btn btn-default col-sm-2" th:href="@{/myBooks/currently-reading}">Currently Reading</a>
+    <a class="btn btn-default col-sm-2" th:href="@{/myBooks/read}">Read</a>
+
+</div>
+
+<br/>
+<table id="books" class="table table-striped">
+  <thead>
+  <tr>
+    <th style="width: 100px;">Title</th>
+    <th style="width: 50px;">Author</th>
+    <th style="width: 50px">Type</th>
+    <th style="width: 30px">Rating</th>
+    <th style="width: 50px">Shelves</th>
+    <th style="width: 90px">Date Finished</th>
+    <th style="width: 90px">Date Added</th>
+    <th style="width: 90px"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="book : ${bookslist}">
+    <td>
+      <a th:href="@{/library/__${book.id}__}" th:text="${book.title}"/></a>
+    </td>
+    <td th:text="${book.author}"/>
+    <td th:text="${book.bookType.name}"/>
+    <td th:text="${book.rating}"/>
+    <td th:text="${book.shelf.status}"/>
+    <td th:text="${book.dateFinished}"/>
+    <td th:text="${book.dateAdded}"/>
+    <td><a  th:href="@{library/{id}/edit(id=${book.id})}" >Edit
+      Book</a></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
