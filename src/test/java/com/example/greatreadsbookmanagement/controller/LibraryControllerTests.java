@@ -10,7 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
 
@@ -45,6 +51,16 @@ public class LibraryControllerTests {
         given(this.libraryRepository.findById(TEST_BOOK_ID)).willReturn(testBook);
     }
 
-    
+    @Test
+    void testInitFindForm() throws Exception {
+        mockMvc.perform(get("/library/find"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("book"))
+                .andExpect(view().name("library/findBooks"));
+    }
+
+    @Test
+    void testProcessFindFormSuccess() throws Exception {
+    }
 
 }
