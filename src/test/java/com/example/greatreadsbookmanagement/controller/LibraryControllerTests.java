@@ -4,6 +4,7 @@ import com.example.greatreadsbookmanagement.model.Book;
 import com.example.greatreadsbookmanagement.model.BookType;
 import com.example.greatreadsbookmanagement.model.Shelf;
 import com.example.greatreadsbookmanagement.repository.LibraryRepository;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -32,6 +32,7 @@ public class LibraryControllerTests {
     private LibraryRepository libraryRepository;
 
     private Book testBook;
+    private Book testBook2;
 
     @BeforeEach
     void setUp() {
@@ -49,6 +50,9 @@ public class LibraryControllerTests {
         shelf.setStatus("Read");
         testBook.setShelf(shelf);
         given(this.libraryRepository.findById(TEST_BOOK_ID)).willReturn(testBook);
+
+        testBook2 = new Book();
+        testBook2.setBookType(bookType);
     }
 
     @Test
@@ -61,6 +65,28 @@ public class LibraryControllerTests {
 
     @Test
     void testProcessFindFormSuccess() throws Exception {
+        given(this.libraryRepository.findBooksInLibraryByTitle("")).willReturn(Lists.newArrayList(testBook, testBook2));
+        mockMvc.perform(get("/library"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("library/booksList"));
     }
+
+    @Test
+    void testProcessFindFormByTitle() throws Exception {
+        given(this.libraryRepository.findBooksInLibraryByTitle(testBook.getTitle())).willReturn(Lists.newArrayList(testBook));
+        mockMvc.perform(get("/library").param("title","Tu Do"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/library/" + TEST_BOOK_ID));
+    }
+
+    @Test
+    void testProcessFindFormNotFound() throws Exception {
+        mockMvc.perform(get("/library").param("title", "Random Title"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeHasFieldErrorCode("book","title","notFound"))
+                .andExpect(view().name("library/findBooks"));
+    }
+
+
 
 }
