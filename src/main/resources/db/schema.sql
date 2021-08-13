@@ -1,4 +1,5 @@
 CREATE DATABASE  IF NOT EXISTS `greatreads`;
+GRANT ALL PRIVILEGES ON greatreads.* TO 'springstudent'@'%' IDENTIFIED BY 'springstudent';
 USE `greatreads`;
 
 --

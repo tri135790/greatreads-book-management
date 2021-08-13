@@ -1,12 +1,29 @@
-mysql:
-  image: mysql:5.7
-  ports:
-    - "3306:3306"
-  environment:
-    - MYSQL_ROOT_PASSWORD=springstudent
-    - MYSQL_ALLOW_EMPTY_PASSWORD=true
-    - MYSQL_USER=root
-  volumes:
-    - "./conf.d:/etc/mysql/conf.d:ro"
-  depends_on:
-    - mysql-server
+version: "3"
+services:
+  greatreads-book-management:
+    image: tri135790/greatreads-book-management
+    ports:
+    - "8080:8080"
+    networks:
+      - greatreads-mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/greatreads?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:8
+    networks:
+      - greatreads-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_PASSWORD=springstudent
+      - MYSQL_USER=springstudent
+      - MYSQL_DATABASE=greatreads
+    volumes:
+      - "./conf.d:/etc/mysql/conf.d:ro"
+
+
+networks:
+  greatreads-mysql:
