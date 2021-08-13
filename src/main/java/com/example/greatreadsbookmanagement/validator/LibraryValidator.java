@@ -5,6 +5,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.time.LocalDate;
+
 public class LibraryValidator implements Validator {
 
     private static final String REQUIRED = "required";
@@ -39,6 +41,9 @@ public class LibraryValidator implements Validator {
             }
             if (book.getDateFinished() == null) {
                 errors.rejectValue("dateFinished", "Read_Required");
+            }
+            if (book.getDateFinished().isAfter(LocalDate.now())) {
+                errors.rejectValue("dateFinished", "Date_Invalid");
             }
         } else {
             if (book.getRating() != null) {

@@ -13,7 +13,7 @@ INSERT IGNORE INTO shelves VALUES (4, 'None');
 
 INSERT IGNORE INTO books VALUES (1, 'On the Road', 'Jack Kerouac', '5', '2021-09-07', '2021-09-07', 2, 6);
 INSERT IGNORE INTO books VALUES (2, 'The Enzyme Factor', 'Shinya Hiromi', NULL, NULL , NULL , 4, 1);
-INSERT IGNORE INTO books VALUES (3, 'Viet Nam Dynasties', 'Quỳnh Cư', '9', '2021-09-07', '2021-09-07', 2, 4);
+INSERT IGNORE INTO books VALUES (3, 'Viet Nam Dynasties', 'Quynh Cu', '9', '2021-09-07', '2021-09-07', 2, 4);
 INSERT IGNORE INTO books VALUES (4, 'How to Influence People', 'Dale Carnegie', '2', '2021-09-07', '2021-09-07', 2, 2);
 INSERT IGNORE INTO books VALUES (5, 'Deep Work', 'Cal Newport', '5', '2021-09-07', '2021-09-07', 2, 7);
 
