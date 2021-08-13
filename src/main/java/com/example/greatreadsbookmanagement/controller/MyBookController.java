@@ -2,13 +2,11 @@ package com.example.greatreadsbookmanagement.controller;
 
 import com.example.greatreadsbookmanagement.constant.Constant;
 import com.example.greatreadsbookmanagement.model.Book;
-import com.example.greatreadsbookmanagement.model.Shelf;
 import com.example.greatreadsbookmanagement.repository.MyBooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 

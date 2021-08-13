@@ -17,6 +17,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 
 import java.time.LocalDate;
 
@@ -74,7 +76,7 @@ public class LibraryControllerTests {
     @Test
     void testProcessFindFormByTitle() throws Exception {
         given(this.libraryRepository.findBooksInLibraryByTitle(testBook.getTitle())).willReturn(Lists.newArrayList(testBook));
-        mockMvc.perform(get("/library").param("title","Tu Do"))
+        mockMvc.perform(get("/library").param("title", "Tu Do"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/library/" + TEST_BOOK_ID));
     }
@@ -83,10 +85,29 @@ public class LibraryControllerTests {
     void testProcessFindFormNotFound() throws Exception {
         mockMvc.perform(get("/library").param("title", "Random Title"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeHasFieldErrorCode("book","title","notFound"))
+                .andExpect(model().attributeHasFieldErrorCode("book", "title", "notFound"))
                 .andExpect(view().name("library/findBooks"));
     }
 
+    @Test
+    void testShowBook() throws Exception {
+        mockMvc.perform(get("/library/{bookId}", TEST_BOOK_ID))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("book",hasProperty("title",is("Tu Do"))))
+                .andExpect(model().attribute("book",hasProperty("author",is("Phan Manh Quynh"))))
+                .andExpect(model().attribute("book",hasProperty("rating",is(5))))
+                .andExpect(model().attribute("book",hasProperty("dateAdded",is(LocalDate.now()))))
+                .andExpect(model().attribute("book",hasProperty("dateFinished",is(LocalDate.now()))))
+                .andExpect(model().attribute("book",hasProperty("bookType",hasProperty("name", is("adventure")))))
+                .andExpect(model().attribute("book",hasProperty("shelf",hasProperty("status", is("Read")))));
 
+    }
 
+    @Test
+    void testInitCreationForm() throws Exception {
+        mockMvc.perform(get("/library/new"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("book"))
+                .andExpect(view().name("library/createOrUpdateBookForm"));
+    }
 }

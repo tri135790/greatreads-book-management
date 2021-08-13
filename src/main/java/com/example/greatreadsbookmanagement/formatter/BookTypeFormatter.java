@@ -1,6 +1,5 @@
 package com.example.greatreadsbookmanagement.formatter;
 
-import com.example.greatreadsbookmanagement.model.Book;
 import com.example.greatreadsbookmanagement.model.BookType;
 import com.example.greatreadsbookmanagement.repository.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,13 @@ import java.util.Locale;
 @Component
 public class BookTypeFormatter implements Formatter<BookType> {
 
+    private final LibraryRepository libraryRepository;
+
     @Autowired
-    private LibraryRepository libraryRepository;
+    public BookTypeFormatter(LibraryRepository libraryRepository) {
+        this.libraryRepository = libraryRepository;
+    }
+
 
     @Override
     public BookType parse(String text, Locale locale) throws ParseException {
