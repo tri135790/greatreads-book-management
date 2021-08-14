@@ -8,16 +8,22 @@ services:
       - greatreads-mysql
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/greatreads?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: springstudent
+      SPRING_DATASOURCE_PASSWORD: springstudent
+    build:
+      context: ./
+      dockerfile: Dockerfile
     depends_on:
       - mysqldb
 
   mysqldb:
     image: mysql:8
+    ports:
+    - "3307:3306"
     networks:
       - greatreads-mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_PASSWORD=springstudent
       - MYSQL_USER=springstudent
       - MYSQL_DATABASE=greatreads
